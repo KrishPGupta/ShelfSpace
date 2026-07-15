@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Visible keyboard focus everywhere, styled to match the brand instead of the browser default */
+:focus-visible {
+  outline: 2px solid #b08d4f;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Book spine tilt — the signature hover interaction on catalog cards */
+.spine-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.spine-card:hover {
+  transform: translateY(-4px) rotate(-1deg);
+  box-shadow: 0 12px 24px -8px rgba(16, 31, 27, 0.35);
+}
