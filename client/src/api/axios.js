@@ -1,11 +1,14 @@
 import axios from "axios";
 
-// withCredentials lets the browser send/receive the httpOnly JWT cookie
-// set by the Express backend. baseURL is "/api" and proxied to the
-// backend by vite.config.js in dev, and should be reverse-proxied the
-// same way in production.
+// In dev, VITE_API_URL is unset and we fall back to "/api", which Vite
+// proxies to the local Express server. In production, VITE_API_URL points
+// straight at the deployed Render backend since there's no dev proxy.
+const baseURL = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api`
+  : "/api";
+
 const api = axios.create({
-  baseURL: "/api",
+  baseURL,
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
