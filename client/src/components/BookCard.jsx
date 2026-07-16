@@ -2,13 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import StarRating from "./StarRating";
 import { getSpineColor } from "../config/categoryColors";
-import { getBookCover } from "../config/bookImages";
 
 export default function BookCard({ book }) {
   const spine = getSpineColor(book.category);
   // book.coverImage is just a filename from the DB; resolve it against
   // the bundled images in src/assets/images/books/.
-  const coverSrc = getBookCover(book.coverImage);
+  // coverImage is now a full URL (Open Library covers API), used directly.
+  const coverSrc = book.coverImage || null;
 
   return (
     <Link

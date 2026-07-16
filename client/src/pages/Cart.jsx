@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { getBookCover } from "../config/bookImages";
 
 export default function Cart() {
   const { cart, updateQuantity, remove, loading } = useCart();
@@ -35,9 +34,9 @@ export default function Cart() {
             className="flex items-center gap-4 rounded-md bg-white p-4 shadow-sm"
           >
             <div className="h-20 w-14 shrink-0 overflow-hidden rounded bg-stone-dark">
-              {getBookCover(item.book.coverImage) && (
+              {item.book.coverImage && (
                 <img
-                  src={getBookCover(item.book.coverImage)}
+                  src={item.book.coverImage}
                   alt=""
                   className="h-full w-full object-cover"
                 />

@@ -6,7 +6,6 @@ import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import StarRating from "../components/StarRating";
 import { getSpineColor } from "../config/categoryColors";
-import { getBookCover } from "../config/bookImages";
 
 export default function BookDetail() {
   const { id } = useParams();
@@ -87,9 +86,9 @@ export default function BookDetail() {
         <div className="w-full shrink-0 overflow-hidden rounded-md shadow-sm sm:w-64">
           <div className="flex" style={{ borderLeft: `6px solid ${spine}` }}>
             <div className="aspect-[2/3] w-full bg-stone-dark">
-              {getBookCover(book.coverImage) ? (
+              {book.coverImage ? (
                 <img
-                  src={getBookCover(book.coverImage)}
+                  src={book.coverImage}
                   alt={`Cover of ${book.title}`}
                   className="h-full w-full object-cover"
                 />
