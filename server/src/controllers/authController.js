@@ -8,16 +8,6 @@ function signToken(userId) {
   });
 }
 
-function setAuthCookie(res, token) {
-  const isProduction = process.env.NODE_ENV === "production";
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: isProduction ? "none" : "lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
-}
-
 exports.register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -37,8 +27,7 @@ exports.register = async (req, res) => {
     const user = await User.create({ name, email, passwordHash });
 
     const token = signToken(user._id);
-    setAuthCookie(res, token);
-    res.status(201).json({ user: user.toSafeJSON() });
+    res.status(201).json({ user: user.toSafeJSON(), token });
   } catch (err) {
     res.status(500).json({ message: "Couldn't create your account." });
   }
@@ -53,15 +42,16 @@ exports.login = async (req, res) => {
     }
 
     const token = signToken(user._id);
-    setAuthCookie(res, token);
-    res.json({ user: user.toSafeJSON() });
+    res.json({ user: user.toSafeJSON(), token });
   } catch (err) {
     res.status(500).json({ message: "Couldn't sign you in." });
   }
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie("token");
+  // Nothing to clear server-side anymore — the frontend just discards its
+  // own copy of the token. Kept as a real endpoint so the client call
+  // (and its error handling) doesn't need to change.
   res.json({ message: "Logged out." });
 };
 

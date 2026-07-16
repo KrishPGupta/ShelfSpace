@@ -2,7 +2,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 async function protect(req, res, next) {
-  const token = req.cookies?.token;
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+
   if (!token) {
     return res.status(401).json({ message: "Not authenticated." });
   }

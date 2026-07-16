@@ -9,8 +9,20 @@ const baseURL = import.meta.env.VITE_API_URL
 
 const api = axios.create({
   baseURL,
-  withCredentials: true,
   headers: { "Content-Type": "application/json" },
+});
+
+// Attach the JWT to every outgoing request, if we have one. We no longer
+// rely on cookies for auth: browsers increasingly block third-party
+// cookies whenever frontend and backend live on different domains
+// (e.g. vercel.app vs onrender.com), which broke cookie-based auth in
+// production for anyone with that browser setting on.
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("shelfspace_token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 export default api;
