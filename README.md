@@ -95,3 +95,8 @@ import statements needed.
 - `client/vercel.json` contains a rewrite rule so client-side routes
   (e.g. `/catalog`) don't 404 on refresh — required for any React
   Router SPA on Vercel.
+
+
+  ## Author
+
+Built by Krish Gupta
